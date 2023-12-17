@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { updateUser } from "../redux/user.actions";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { PhoneCodeVal } from "../phoneCode";
 
 const UserEdit = ({ setEdit, editData }) => {
   const dispatch = useDispatch();
@@ -27,15 +28,17 @@ const UserEdit = ({ setEdit, editData }) => {
     country_code: editData.mobile_no.substring(0,editData.mobile_no.indexOf(" ")),
   };
 
+
+
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJydWJlc2hyODFAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoibUlfd0txTm1KYjdXLTNWMzY1clZETTZ0RlEwbmtvYVdYbE1uVTdPQmFxZHpYd1VpeVVNVFYyMUI4ZFAzZ1h1aVdnUSJ9LCJleHAiOjE3MDI3ODY4Mzh9.XePstgFEYV7pFgT-T0pQTp8RHfxchQb-3OPt1FHhi0M`,
+     " X-CSCAPI-KEY":"NHhvOEcyWk50N2Vna3VFTE00bFp3MjFKR0ZEOUhkZlg4RTk1MlJlaA=="
     },
   };
 
   useEffect(() => {
     axios
-      .get("https://www.universal-tutorial.com/api/countries/", config)
+      .get("https://api.countrystatecity.in/v1/countries", config)
       .then((response) => {
         setCountries(response.data);
       })
@@ -48,7 +51,7 @@ const UserEdit = ({ setEdit, editData }) => {
     if (contrycode) {
       axios
         .get(
-          `https://www.universal-tutorial.com/api/states/${contrycode}`,
+          `https://api.countrystatecity.in/v1/countries/${contrycode.substring(0,2)}/states`,
           config
         )
         .then((response) => {
@@ -101,11 +104,13 @@ const UserEdit = ({ setEdit, editData }) => {
     },
   });
 
+  console.log("this for starte",values.state)
+
 
   useEffect(() => {
     axios
       .get(
-        `https://www.universal-tutorial.com/api/states/${values.country}`,
+        `https://api.countrystatecity.in/v1/countries/${values.country.substring(0,2)}/states`,
         config
       )
       .then((response) => {
@@ -221,11 +226,11 @@ const UserEdit = ({ setEdit, editData }) => {
                       className={clsx(
                         "bg-gray-50 border w-auto  h-[40px] outline-none  mt-[10px] border-gray-300 text-gray-900 text-sm  rounded-md focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       )}>
-                      {countries.map((con) => (
+                      {PhoneCodeVal.map((con) => (
                         <option
-                          key={con.country_short_name}
-                          value={con.country_phone_code}>
-                          {con.country_phone_code}
+                          key={con.code}
+                          value={con.code}>
+                          {con.code}
                         </option>
                       ))}
                     </select>
@@ -293,8 +298,8 @@ const UserEdit = ({ setEdit, editData }) => {
                   )}>
                   <option value="">Select a country</option>
                   {countries.map((con) => (
-                    <option key={con.country_name} value={con.country_name}>
-                      {con.country_name}
+                    <option key={con.name} value={con.name}>
+                      {con.name}
                     </option>
                   ))}
                 </select>
@@ -318,8 +323,8 @@ const UserEdit = ({ setEdit, editData }) => {
                   )}>
                   <option value="">Select a state</option>
                   {states.map((state) => (
-                    <option key={state.state_name} value={state.state_name}>
-                      {state.state_name}
+                    <option key={state.name} value={state.name}>
+                      {state.name}
                     </option>
                   ))}
                 </select>

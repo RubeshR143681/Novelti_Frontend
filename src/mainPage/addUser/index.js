@@ -3,16 +3,18 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
 import { useDispatch } from "react-redux";
-import {  createUser } from "../redux/user.actions";
+import { createUser } from "../redux/user.actions";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import {PhoneCodeVal} from "../phoneCode";
 
 const UserAdd = ({ setAdd }) => {
   const dispatch = useDispatch();
 
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
-  
+  const [phoneCode, setPhoneCode] = useState([]);
+
 
   const initialValues = {
     first_name: "",
@@ -23,19 +25,19 @@ const UserAdd = ({ setAdd }) => {
     state: "",
     country: "",
     zip_code: "",
-    country_code: "91",
+    country_code: "+91",
   };
 
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJydWJlc2hyODFAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoibUlfd0txTm1KYjdXLTNWMzY1clZETTZ0RlEwbmtvYVdYbE1uVTdPQmFxZHpYd1VpeVVNVFYyMUI4ZFAzZ1h1aVdnUSJ9LCJleHAiOjE3MDI3ODY4Mzh9.XePstgFEYV7pFgT-T0pQTp8RHfxchQb-3OPt1FHhi0M`,
+      " X-CSCAPI-KEY":
+        "NHhvOEcyWk50N2Vna3VFTE00bFp3MjFKR0ZEOUhkZlg4RTk1MlJlaA==",
     },
   };
-     
+
   useEffect(() => {
-   
-    axios  
-      .get("https://www.universal-tutorial.com/api/countries/",config)
+    axios
+      .get("https://api.countrystatecity.in/v1/countries", config)
       .then((response) => {
         setCountries(response.data);
       })
@@ -44,11 +46,13 @@ const UserAdd = ({ setAdd }) => {
       });
   }, []);
 
+  
+
   const handleCountryChange = (contrycode) => {
     if (contrycode) {
       axios
         .get(
-          `https://www.universal-tutorial.com/api/states/${contrycode}`,
+          `https://api.countrystatecity.in/v1/countries/${contrycode}/states`,
           config
         )
         .then((response) => {
@@ -58,7 +62,7 @@ const UserAdd = ({ setAdd }) => {
           console.error("Error fetching states", error);
         });
     } else {
-      setStates([]); 
+      setStates([]);
     }
   };
 
@@ -115,7 +119,7 @@ const UserAdd = ({ setAdd }) => {
                 className="bg-transparent border border-red-400  text-red-400 h-[30px] w-[70px] hover:text-white hover:bg-red-500 rounded font-semibold">
                 Cancle
               </button>
-            </div>  
+            </div>
           </div>
           <Divider />
           <div className="flex flex-col lg:flex lg:flex-row lg:gap-[40px] lg:justify-between">
@@ -188,7 +192,7 @@ const UserAdd = ({ setAdd }) => {
               </div>
               <div className="mb-8 flex flex-col ]">
                 <label className="form-label font-semibold text-darktext-[14px] lg:text-[16px]">
-                  Mobile No 
+                  Mobile No
                 </label>
                 <div className="w-auto flex justify-between items-center gap-[5px]">
                   <div>
@@ -201,11 +205,11 @@ const UserAdd = ({ setAdd }) => {
                       className={clsx(
                         "bg-gray-50 border w-full  h-[40px] outline-none  mt-[10px] border-gray-300 text-gray-900 text-sm  rounded-md focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       )}>
-                      {countries.map((con) => (
+                      {PhoneCodeVal.map((con) => (
                         <option
-                          key={con.country_short_name}
-                          value={con.country_phone_code}>
-                          {con.country_phone_code}
+                          key={con.code}
+                          value={con.code}>
+                          {con.code}
                         </option>
                       ))}
                     </select>
@@ -214,7 +218,7 @@ const UserAdd = ({ setAdd }) => {
                     <input
                       placeholder="Mobile No"
                       type="text"
-                      autoComplete="off"  
+                      autoComplete="off"
                       name="mobile_no"
                       value={values.mobile_no}
                       onChange={handleChange}
@@ -232,10 +236,9 @@ const UserAdd = ({ setAdd }) => {
                   </span>
                 )}
               </div>
-             
             </div>
             <div>
-            <div className="mb-8 flex flex-col ]">
+              <div className="mb-8 flex flex-col ]">
                 <label className="form-label font-semibold text-dark text-[14px] lg:text-[16px]">
                   Address 1<span className="text-red-500">*</span>
                 </label>
@@ -263,7 +266,7 @@ const UserAdd = ({ setAdd }) => {
                   name="country"
                   onChange={(e) => {
                     handleChange(e);
-                    handleCountryChange(e.target.value);
+                    handleCountryChange(e.target.value.substring(0, 2));
                   }}
                   value={values.country}
                   onBlur={handleBlur}
@@ -272,8 +275,8 @@ const UserAdd = ({ setAdd }) => {
                   )}>
                   <option value="">Select a country</option>
                   {countries.map((con) => (
-                    <option key={con.country_name} value={con.country_name}>
-                      {con.country_name}
+                    <option key={con.name} value={con.name}>
+                      {con.name}
                     </option>
                   ))}
                 </select>
@@ -297,8 +300,8 @@ const UserAdd = ({ setAdd }) => {
                   )}>
                   <option value="">Select a state</option>
                   {states.map((state) => (
-                    <option key={state.state_name} value={state.state_name}>
-                      {state.state_name}
+                    <option key={state.name} value={state.name}>
+                      {state.name}
                     </option>
                   ))}
                 </select>
