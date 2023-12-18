@@ -19,7 +19,7 @@ const Toast = Swal.mixin({
 
 export const getAllUser = async (dispatch) => {
   try {
-    const response = await axios.get("http://localhost:8081/getall_user");
+    const response = await axios.get("https://node-mysql-api-byn8.onrender.com/getall_user");
     const result = await response;
     console.log("this is team getal==>", result);
     dispatch({ type: GET_ALL_USER, payload: result });
@@ -32,7 +32,7 @@ export const createUser = (data) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        "http://localhost:8081/create_user",
+        "https://node-mysql-api-byn8.onrender.com/create_user",
         data
       );
       const result = await response.data;
@@ -61,7 +61,7 @@ export const updateUser = (data,id) => {
   return async (dispatch) => {
     try {
       const response = await axios.put(
-        `http://localhost:8081/update_user/${id}`,
+        `https://node-mysql-api-byn8.onrender.com/update_user/${id}`,
         data
       );
       const result = await response.data;
@@ -100,7 +100,7 @@ export const deleteUser = (id) => {
           confirmButtonText: "Yes, delete it!",
         }).then((result) => {
           if (result.isConfirmed) {
-            const deletUrl = `http://localhost:8081/delete_user/${id}`
+            const deletUrl = `https://node-mysql-api-byn8.onrender.com/delete_user/${id}`
             axios
               .delete(deletUrl)
               .then((response) => {
