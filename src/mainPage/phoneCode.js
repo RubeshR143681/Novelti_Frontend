@@ -361,7 +361,7 @@ export const PhoneCodeVal=[
         "name": "Greenland"
       },
       {
-        "code": "+1 473",
+        "code": "+1473",
         "name": "Grenada"
       },
       {
@@ -369,7 +369,7 @@ export const PhoneCodeVal=[
         "name": "Guadeloupe"
       },
       {
-        "code": "+1 671",
+        "code": "+1671",
         "name": "Guam"
       },
       {
@@ -441,7 +441,7 @@ export const PhoneCodeVal=[
         "name": "Ivory Coast"
       },
       {
-        "code": "+1 876",
+        "code": "+1876",
         "name": "Jamaica"
       },
       {
@@ -569,7 +569,7 @@ export const PhoneCodeVal=[
         "name": "Micronesia"
       },
       {
-        "code": "+1 808",
+        "code": "+1808",
         "name": "Midway Island"
       },
       {
