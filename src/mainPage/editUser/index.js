@@ -1,3 +1,4 @@
+// Import necessary modules and components
 import { Divider } from "antd";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -8,13 +9,20 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { PhoneCodeVal } from "../phoneCode";
 
+
+// Define the UserEdit component
+
+
 const UserEdit = ({ setEdit, editData }) => {
   const dispatch = useDispatch();
+
+    // States to store country and state data fetched from APIs
 
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
 
-  console.log("hi ia editData==>", editData);
+
+    // Initializing form values based on the data to be edited
 
   const initialValues = {
     first_name: editData.first_name,
@@ -29,6 +37,7 @@ const UserEdit = ({ setEdit, editData }) => {
   };
 
 
+  // Configuration for API requests
 
   const config = {
     headers: {
@@ -37,6 +46,9 @@ const UserEdit = ({ setEdit, editData }) => {
     },
   };
 
+    // Fetching countries from an API when the component mounts
+
+  
   useEffect(() => {
     axios
     .get("https://www.universal-tutorial.com/api/countries", config)
@@ -47,6 +59,10 @@ const UserEdit = ({ setEdit, editData }) => {
         console.error("Error fetching countries", error);
       });
   }, []);
+
+  
+    // Function to fetch states based on selected country
+
 
   const handleCountryChange = (contrycode) => {
     if (contrycode) {
@@ -66,6 +82,8 @@ const UserEdit = ({ setEdit, editData }) => {
     }
   };
 
+  // Form validation schema using Yup
+
   const UserSchema = Yup.object().shape({
     first_name: Yup.string().min(5).required("Firstname is required"),
     last_name: Yup.string().min(5).required("Lastname is required"),
@@ -83,6 +101,8 @@ const UserEdit = ({ setEdit, editData }) => {
       .matches(/^[0-9]+$/, "Mobile Number contain only numbers"),
   });
 
+    // Formik hook to manage form state and submission
+
   const {
     values,
     errors,
@@ -95,9 +115,12 @@ const UserEdit = ({ setEdit, editData }) => {
     initialValues,
     validationSchema: UserSchema,
     onSubmit: (val) => {
+      
+            // Formatting mobile number before updating
       const formattedMobileNo = `${val.country_code} ${val.mobile_no}`;
       setFieldValue("mobile_no", formattedMobileNo);
-      console.log("this is the alll value", val);
+
+            // Dispatching action to update user data
       dispatch(
         updateUser({ ...val, mobile_no: formattedMobileNo }, editData.id)
       );
@@ -105,8 +128,8 @@ const UserEdit = ({ setEdit, editData }) => {
     },
   });
 
-  console.log("this for starte",values.state)
 
+  // Fetching states based on selected country when the country changes
 
   useEffect(() => {
     axios
@@ -123,6 +146,7 @@ const UserEdit = ({ setEdit, editData }) => {
   }, []);
 
   
+  // JSX for rendering the edit form
 
   return (
     <>

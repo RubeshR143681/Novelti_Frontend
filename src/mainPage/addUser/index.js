@@ -1,3 +1,5 @@
+// Import necessary modules and components
+
 import { Divider } from "antd";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -6,14 +8,22 @@ import { useDispatch } from "react-redux";
 import { createUser } from "../redux/user.actions";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {PhoneCodeVal} from "../phoneCode";
+import { PhoneCodeVal } from "../phoneCode";
+
+
+// Define the UserAdd component
 
 const UserAdd = ({ setAdd }) => {
   const dispatch = useDispatch();
 
+
+    // Define state variables
+
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
 
+
+    // Define initial form values
 
   const initialValues = {
     first_name: "",
@@ -27,12 +37,17 @@ const UserAdd = ({ setAdd }) => {
     country_code: "+91",
   };
 
+    // Set up authentication headers for API requests
+
   const config = {
     headers: {
-      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJydWJlc2hyODFAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoibUlfd0txTm1KYjdXLTNWMzY1clZETTZ0RlEwbmtvYVdYbE1uVTdPQmFxZHpYd1VpeVVNVFYyMUI4ZFAzZ1h1aVdnUSJ9LCJleHAiOjE3MDI5NzE3NDh9.DQHTCr7SnXXr7JXJ9CVOrb0UIeq6L2IhnT8CEEg4380",
-      "Accept": "application/json"
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJydWJlc2hyODFAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoibUlfd0txTm1KYjdXLTNWMzY1clZETTZ0RlEwbmtvYVdYbE1uVTdPQmFxZHpYd1VpeVVNVFYyMUI4ZFAzZ1h1aVdnUSJ9LCJleHAiOjE3MDI5NzE3NDh9.DQHTCr7SnXXr7JXJ9CVOrb0UIeq6L2IhnT8CEEg4380",
+      Accept: "application/json",
     },
   };
+
+    // Fetch countries on component mount
 
   useEffect(() => {
     axios
@@ -45,10 +60,11 @@ const UserAdd = ({ setAdd }) => {
       });
   }, []);
 
-  
+
+    // Function to handle country change
 
   const handleCountryChange = (contrycode) => {
-    console.log("this is countrycode",contrycode)
+    console.log("this is countrycode", contrycode);
     if (contrycode) {
       axios
         .get(
@@ -66,6 +82,9 @@ const UserAdd = ({ setAdd }) => {
     }
   };
 
+
+    // Define form validation schema using Yup
+
   const UserSchema = Yup.object().shape({
     first_name: Yup.string().min(5).required("Firstname is required"),
     last_name: Yup.string().min(5).required("Lastname is required"),
@@ -82,6 +101,8 @@ const UserAdd = ({ setAdd }) => {
       .min(10)
       .matches(/^[0-9]+$/, "Mobile Number contain only numbers"),
   });
+
+    // Use Formik for form handling and validation
 
   const {
     values,
@@ -102,7 +123,9 @@ const UserAdd = ({ setAdd }) => {
       setAdd(false);
     },
   });
-  console.log("rhidi==",values.country.iso2)
+
+
+    // Render the form
 
   return (
     <>
@@ -208,9 +231,7 @@ const UserAdd = ({ setAdd }) => {
                         "bg-gray-50 border w-full  h-[40px] outline-none  mt-[10px] border-gray-300 text-gray-900 text-sm  rounded-md focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       )}>
                       {PhoneCodeVal.map((con) => (
-                        <option
-                          key={con.name}
-                          value={con.code}>
+                        <option key={con.name} value={con.code}>
                           {con.code}
                         </option>
                       ))}

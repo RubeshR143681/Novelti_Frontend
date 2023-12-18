@@ -1,4 +1,6 @@
-export const PhoneCodeVal=[
+//phonecode json for mobile country code drowndown
+
+export const PhoneCodeVal = [
 
       {
         "code": "+7840",

@@ -3,6 +3,8 @@ import axios from "axios";
 
 import Swal from "sweetalert2";
 
+// Toast configuration using SweetAlert2 for notifications
+
 const Toast = Swal.mixin({
   toast: true,
   position: "bottom-left",
@@ -17,6 +19,9 @@ const Toast = Swal.mixin({
   timerProgressBar: true,
 });
 
+
+// Action to fetch all users
+
 export const getAllUser = async (dispatch) => {
   try {
     const response = await axios.get("https://node-mysql-api-byn8.onrender.com/getall_user");
@@ -28,6 +33,9 @@ export const getAllUser = async (dispatch) => {
   }
 };
 
+
+// Action to create a user
+
 export const createUser = (data) => {
   return async (dispatch) => {
     try {
@@ -37,8 +45,10 @@ export const createUser = (data) => {
       );
       const result = await response.data;
       dispatch({ type: CREATE_USER, payload: result });
-      dispatch(getAllUser);
+      dispatch(getAllUser);  // Refresh the user list after creating a new user
 
+
+       // Display success popup
       await Toast.fire({
         icon: "success",
         text: "User Information has been created sucessfully",
@@ -46,6 +56,8 @@ export const createUser = (data) => {
         color: "white",
       });
     } catch (error) {
+
+      // Display error notification for incorrect user details
       Toast.fire({
         icon: "error",
         title: "User Details are wrong Please Enter correct details",
@@ -56,6 +68,9 @@ export const createUser = (data) => {
     }
   };
 };
+
+
+// Action to update a user
 
 export const updateUser = (data,id) => {
   return async (dispatch) => {
@@ -67,15 +82,20 @@ export const updateUser = (data,id) => {
       const result = await response.data;
       dispatch({ type: UPDATE_USER, payload: result });
      
+      // Display success notification for updating user information
+
       await Toast.fire({
         icon: "success",
         text: "User Information has been updated sucessfully",
         background: "green",
         color: "white",
-        timer: 1500,
+        timer: 1500,   // Close the notification after 1500ms
       });
-      window.location.reload();
+      window.location.reload();  // Reload the window after updating user info
     } catch (error) {
+
+     // Display error notification for incorrect user details
+
       Toast.fire({
         icon: "error",
         title: "User Details are wrong Please Enter correct details",
@@ -86,6 +106,9 @@ export const updateUser = (data,id) => {
     }
   };
 };
+
+
+// Action to delete a user
 
 export const deleteUser = (id) => {
   return async (dispatch) => {
@@ -105,7 +128,7 @@ export const deleteUser = (id) => {
               .delete(deletUrl)
               .then((response) => {
                 console.log("Response data:", response.data);
-                dispatch(getAllUser);
+                dispatch(getAllUser);  // Refresh the user list after deleting a user
               })
               .catch((error) => {
                 console.error("Error:", error);
@@ -120,6 +143,7 @@ export const deleteUser = (id) => {
         });
       
     } catch (error) {
+      // Display error notification for incorrect user details
       Toast.fire({
         icon: "error",
         title: "User Details are wrong Please Enter correct details",

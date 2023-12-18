@@ -1,3 +1,5 @@
+// Import necessary modules and components
+
 import React, { useEffect, useState } from "react";
 import { Table, Divider, Drawer } from "antd";
 import { getAllUser, deleteUser } from "./redux/user.actions";
@@ -5,13 +7,19 @@ import { useDispatch, useSelector } from "react-redux";
 import UserAdd from "./addUser/index";
 import UserEdit from "./editUser/index";
 
+
+// Define the UserListMainPage component
 const UserListMainPage = () => {
+
+  // Initialize Redux dispatch
   const dispatch = useDispatch();
 
+    // Retrieve user data from Redux store
   const allUserData = useSelector(
     (state) => state.userListReducer.getAllUser?.data
   );
 
+  // Define various state variables using React hooks
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [data, setData] = useState(allUserData);
@@ -24,15 +32,20 @@ const UserListMainPage = () => {
     response: [],
   });
 
+  // ... other state variables
+
   const checkedStatus = Usersinfo.response;
 
+    // Fetch all user data on component mount and update state
   useEffect(() => {
-    dispatch(getAllUser);
+    dispatch(getAllUser);  // Dispatch action to get all users
     if (allUserData) {
-      setData(allUserData);
+      setData(allUserData);  //Update data state with fetched data
     }
   }, [dispatch, allUserData?.length]);
 
+
+// ... other useEffect hooks for filtering data, managing states, etc.
   useEffect(() => {
     if (query) {
       const searchData = data?.filter(
@@ -59,9 +72,12 @@ const UserListMainPage = () => {
     });
   }, [checkedStatus]);
 
+    // Define function to show total number of records
   const showTotal = (pages, range) => {
     return `No of records: ${range[0]}-${range[1]} of ${pages} `;
   };
+
+    // Define columns for the Ant Design Table component
 
   const orderColumns = [
     {
@@ -164,6 +180,9 @@ const UserListMainPage = () => {
       responsive: ["xs", "md"],
     },
   ];
+
+
+    // JSX component rendering
 
   return (
     <div className="bg-[#D1D5DB] h-[150vh]  lg:px-[40px] lg:py-[30px] py-[30px]  px-[15px] ">
