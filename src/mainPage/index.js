@@ -256,7 +256,7 @@ const UserListMainPage = () => {
       {add && (
         <Drawer
           placement="right"
-          width={window.innerWidth > 1200 ? "65%" : 320}
+          width={window.innerWidth > 768 ? "70%" : 320}
           headerStyle={{ padding: "0px" }}
           closeIcon={
             <div
@@ -288,7 +288,7 @@ const UserListMainPage = () => {
       {edit && (
         <Drawer
           placement="right"
-          width={window.innerWidth > 1200 ? "65%" : 320}
+          width={window.innerWidth > 768 ? "70%" : 320}
           headerStyle={{ padding: "0px" }}
           closeIcon={
             <div

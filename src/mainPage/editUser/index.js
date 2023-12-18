@@ -32,14 +32,15 @@ const UserEdit = ({ setEdit, editData }) => {
 
   const config = {
     headers: {
-     " X-CSCAPI-KEY":"NHhvOEcyWk50N2Vna3VFTE00bFp3MjFKR0ZEOUhkZlg4RTk1MlJlaA=="
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJydWJlc2hyODFAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoibUlfd0txTm1KYjdXLTNWMzY1clZETTZ0RlEwbmtvYVdYbE1uVTdPQmFxZHpYd1VpeVVNVFYyMUI4ZFAzZ1h1aVdnUSJ9LCJleHAiOjE3MDI5NzE3NDh9.DQHTCr7SnXXr7JXJ9CVOrb0UIeq6L2IhnT8CEEg4380",
+      "Accept": "application/json"
     },
   };
 
   useEffect(() => {
     axios
-      .get("https://api.countrystatecity.in/v1/countries", config)
-      .then((response) => {
+    .get("https://www.universal-tutorial.com/api/countries", config)
+    .then((response) => {
         setCountries(response.data);
       })
       .catch((error) => {
@@ -51,7 +52,7 @@ const UserEdit = ({ setEdit, editData }) => {
     if (contrycode) {
       axios
         .get(
-          `https://api.countrystatecity.in/v1/countries/${contrycode.substring(0,2)}/states`,
+          `https://www.universal-tutorial.com/api/states/${contrycode}`,
           config
         )
         .then((response) => {
@@ -110,7 +111,7 @@ const UserEdit = ({ setEdit, editData }) => {
   useEffect(() => {
     axios
       .get(
-        `https://api.countrystatecity.in/v1/countries/${values.country.substring(0,2)}/states`,
+        `https://www.universal-tutorial.com/api/states/${values.country}`,
         config
       )
       .then((response) => {
@@ -298,8 +299,8 @@ const UserEdit = ({ setEdit, editData }) => {
                   )}>
                   <option value="">Select a country</option>
                   {countries.map((con) => (
-                    <option key={con.name} value={con.name}>
-                      {con.name}
+                    <option key={con.country_name} value={con.country_name}>
+                      {con.country_name}
                     </option>
                   ))}
                 </select>
@@ -323,8 +324,8 @@ const UserEdit = ({ setEdit, editData }) => {
                   )}>
                   <option value="">Select a state</option>
                   {states.map((state) => (
-                    <option key={state.name} value={state.name}>
-                      {state.name}
+                    <option key={state.state_name} value={state.state_name}>
+                      {state.state_name}
                     </option>
                   ))}
                 </select>
