@@ -42,7 +42,7 @@ const UserListMainPage = () => {
     if (allUserData) {
       setData(allUserData);  //Update data state with fetched data
     }
-  }, [dispatch, allUserData?.length]);
+  }, [ allUserData?.length]);
 
 
 // ... other useEffect hooks for filtering data, managing states, etc.
@@ -54,23 +54,13 @@ const UserListMainPage = () => {
           item.email_id.toLowerCase().includes(query.toLowerCase())
       );
       setData(searchData);
-      console.log("seactched data", searchData);
     }
     if (query === "") {
       setData(allUserData);
     }
   }, [query]);
 
-  useEffect(() => {
-    let resultData = [];
-    data?.filter((item) => {
-      checkedStatus?.map((val) => {
-        if (val?.toLowerCase() === item?.teamName.toLowerCase()) {
-          resultData.push(item);
-        }
-      });
-    });
-  }, [checkedStatus]);
+
 
     // Define function to show total number of records
   const showTotal = (pages, range) => {
@@ -259,7 +249,7 @@ const UserListMainPage = () => {
               x: 700,
             }}
             pagination={{
-              current: page,
+              current: page,  
               pageSize: pageSize,
               showTotal: showTotal,
               hideOnSinglePage: true,

@@ -26,10 +26,9 @@ export const getAllUser = async (dispatch) => {
   try {
     const response = await axios.get("https://node-mysql-api-byn8.onrender.com/getall_user");
     const result = await response;
-    console.log("this is team getal==>", result);
     dispatch({ type: GET_ALL_USER, payload: result });
   } catch (error) {
-    console.log("tickets error", error);
+    console.log(error);
   }
 };
 
@@ -80,6 +79,7 @@ export const updateUser = (data,id) => {
         data
       );
       const result = await response.data;
+      dispatch(getAllUser)
       dispatch({ type: UPDATE_USER, payload: result });
      
       // Display success notification for updating user information
@@ -91,7 +91,7 @@ export const updateUser = (data,id) => {
         color: "white",
         timer: 1500,   // Close the notification after 1500ms
       });
-      window.location.reload();  // Reload the window after updating user info
+      // window.location.reload();  // Reload the window after updating user info
     } catch (error) {
 
      // Display error notification for incorrect user details

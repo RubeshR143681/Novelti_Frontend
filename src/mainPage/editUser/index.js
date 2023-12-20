@@ -1,58 +1,59 @@
 // Import necessary modules and components
 import { Divider } from "antd";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
 import { useDispatch } from "react-redux";
-import { updateUser } from "../redux/user.actions";
+import { getAllUser, updateUser } from "../redux/user.actions";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { PhoneCodeVal } from "../phoneCode";
 
-
 // Define the UserEdit component
-
 
 const UserEdit = ({ setEdit, editData }) => {
   const dispatch = useDispatch();
 
-    // States to store country and state data fetched from APIs
+  // States to store country and state data fetched from APIs
 
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
 
-
-    // Initializing form values based on the data to be edited
+  // Initializing form values based on the data to be edited
 
   const initialValues = {
     first_name: editData.first_name,
     last_name: editData.last_name,
     email_id: editData.email_id,
-    mobile_no: editData.mobile_no.substring(editData.mobile_no.indexOf(" ") + 1),
+    mobile_no: editData.mobile_no.substring(
+      editData.mobile_no.indexOf(" ") + 1
+    ),
     address_1: editData.address_1,
     country: editData.country,
     state: editData.state,
     zip_code: editData.zip_code,
-    country_code: editData.mobile_no.substring(0,editData.mobile_no.indexOf(" ")),
+    country_code: editData.mobile_no.substring(
+      0,
+      editData.mobile_no.indexOf(" ")
+    ),
   };
-
 
   // Configuration for API requests
 
   const config = {
     headers: {
-      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJydWJlc2hyODFAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoibUlfd0txTm1KYjdXLTNWMzY1clZETTZ0RlEwbmtvYVdYbE1uVTdPQmFxZHpYd1VpeVVNVFYyMUI4ZFAzZ1h1aVdnUSJ9LCJleHAiOjE3MDMwNTk2MzB9.7-giKnAOtwCGTKG1-cxVoYL3EsSUvcyp-FAvJVCXG40",
-      "Accept": "application/json"
+      Authorization:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJydWJlc2hyODFAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoibUlfd0txTm1KYjdXLTNWMzY1clZETTZ0RlEwbmtvYVdYbE1uVTdPQmFxZHpYd1VpeVVNVFYyMUI4ZFAzZ1h1aVdnUSJ9LCJleHAiOjE3MDMxNTYyNjZ9.hWN5bD9OEmKJXLCF0ruAanTF8RgczNbcFlNRdz1_1us",
+      Accept: "application/json",
     },
   };
 
-    // Fetching countries from an API when the component mounts
+  // Fetching countries from an API when the component mounts
 
-  
   useEffect(() => {
     axios
-    .get("https://www.universal-tutorial.com/api/countries", config)
-    .then((response) => {
+      .get("https://www.universal-tutorial.com/api/countries", config)
+      .then((response) => {
         setCountries(response.data);
       })
       .catch((error) => {
@@ -60,9 +61,7 @@ const UserEdit = ({ setEdit, editData }) => {
       });
   }, []);
 
-  
-    // Function to fetch states based on selected country
-
+  // Function to fetch states based on selected country
 
   const handleCountryChange = (contrycode) => {
     if (contrycode) {
@@ -78,7 +77,7 @@ const UserEdit = ({ setEdit, editData }) => {
           console.error("Error fetching states", error);
         });
     } else {
-      setStates([]); 
+      setStates([]);
     }
   };
 
@@ -101,7 +100,7 @@ const UserEdit = ({ setEdit, editData }) => {
       .matches(/^[0-9]+$/, "Mobile Number contain only numbers"),
   });
 
-    // Formik hook to manage form state and submission
+  // Formik hook to manage form state and submission
 
   const {
     values,
@@ -115,19 +114,18 @@ const UserEdit = ({ setEdit, editData }) => {
     initialValues,
     validationSchema: UserSchema,
     onSubmit: (val) => {
-      
-            // Formatting mobile number before updating
+      // Formatting mobile number before updating
       const formattedMobileNo = `${val.country_code} ${val.mobile_no}`;
       setFieldValue("mobile_no", formattedMobileNo);
 
-            // Dispatching action to update user data
+      // Dispatching action to update user data
       dispatch(
         updateUser({ ...val, mobile_no: formattedMobileNo }, editData.id)
       );
+      dispatch(getAllUser);
       setEdit(false);
     },
   });
-
 
   // Fetching states based on selected country when the country changes
 
@@ -145,7 +143,6 @@ const UserEdit = ({ setEdit, editData }) => {
       });
   }, []);
 
-  
   // JSX for rendering the edit form
 
   return (
@@ -252,9 +249,7 @@ const UserEdit = ({ setEdit, editData }) => {
                         "bg-gray-50 border w-auto  h-[40px] outline-none  mt-[10px] border-gray-300 text-gray-900 text-sm  rounded-md focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       )}>
                       {PhoneCodeVal.map((con) => (
-                        <option
-                          key={con.code}
-                          value={con.code}>
+                        <option key={con.code} value={con.code}>
                           {con.code}
                         </option>
                       ))}
