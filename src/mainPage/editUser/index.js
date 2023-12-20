@@ -43,7 +43,7 @@ const UserEdit = ({ setEdit, editData }) => {
   const config = {
     headers: {
       Authorization:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJydWJlc2hyODFAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoibUlfd0txTm1KYjdXLTNWMzY1clZETTZ0RlEwbmtvYVdYbE1uVTdPQmFxZHpYd1VpeVVNVFYyMUI4ZFAzZ1h1aVdnUSJ9LCJleHAiOjE3MDMxNTYyNjZ9.hWN5bD9OEmKJXLCF0ruAanTF8RgczNbcFlNRdz1_1us",
+      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJydWJlc2hyODFAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoibUlfd0txTm1KYjdXLTNWMzY1clZETTZ0RlEwbmtvYVdYbE1uVTdPQmFxZHpYd1VpeVVNVFYyMUI4ZFAzZ1h1aVdnUSJ9LCJleHAiOjE3MDMxNTY5MDR9.V8vV9_twrPWF6EMfW8F1D_3v8QxgjA6nQV-Btb6eXqA",
       Accept: "application/json",
     },
   };
