@@ -16,8 +16,7 @@ const UserEdit = ({ setEdit, editData }) => {
 
   // States to store country and state data fetched from APIs
 
-  const [countries, setCountries] = useState([]);
-  const [states, setStates] = useState([]);
+  
 
   // Initializing form values based on the data to be edited
 
@@ -50,37 +49,10 @@ const UserEdit = ({ setEdit, editData }) => {
 
   // Fetching countries from an API when the component mounts
 
-  useEffect(() => {
-    axios
-      .get("https://www.universal-tutorial.com/api/countries", config)
-      .then((response) => {
-        setCountries(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching countries", error);
-      });
-  }, []);
 
   // Function to fetch states based on selected country
 
-  const handleCountryChange = (contrycode) => {
-    if (contrycode) {
-      axios
-        .get(
-          `https://www.universal-tutorial.com/api/states/${contrycode}`,
-          config
-        )
-        .then((response) => {
-          setStates(response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching states", error);
-        });
-    } else {
-      setStates([]);
-    }
-  };
-
+  
   // Form validation schema using Yup
 
   const UserSchema = Yup.object().shape({
@@ -129,19 +101,6 @@ const UserEdit = ({ setEdit, editData }) => {
 
   // Fetching states based on selected country when the country changes
 
-  useEffect(() => {
-    axios
-      .get(
-        `https://www.universal-tutorial.com/api/states/${values.country}`,
-        config
-      )
-      .then((response) => {
-        setStates(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching states", error);
-      });
-  }, []);
 
   // JSX for rendering the edit form
 
@@ -300,7 +259,7 @@ const UserEdit = ({ setEdit, editData }) => {
                   </span>
                 )}
               </div>
-              <div className="mb-8">
+              {/* <div className="mb-8">
                 <p className="form-label font-semibold text-dark text-[14px] lg:text-[16px]">
                   country <span className="text-red-500">*</span>
                 </p>
@@ -353,7 +312,7 @@ const UserEdit = ({ setEdit, editData }) => {
                     {errors.state}
                   </span>
                 )}
-              </div>
+              </div> */}
               <div className="mb-8 flex flex-col ]">
                 <label className="form-label font-semibold text-dark text-[14px] lg:text-[16px]">
                   Zip Code <span className="text-red-500">*</span>

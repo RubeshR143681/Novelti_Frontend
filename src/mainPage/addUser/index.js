@@ -17,8 +17,7 @@ const UserAdd = ({ setAdd }) => {
 
   // Define state variables
 
-  const [countries, setCountries] = useState([]);
-  const [states, setStates] = useState([]);
+  
 
   // Define initial form values
 
@@ -28,8 +27,8 @@ const UserAdd = ({ setAdd }) => {
     email_id: "",
     mobile_no: "",
     address_1: "",
-    state: "",
-    country: "",
+    country:"India",
+    state:"Tamil Nadu",
     zip_code: "",
     country_code: "+91",
   };
@@ -46,37 +45,11 @@ const UserAdd = ({ setAdd }) => {
 
   // Fetch countries on component mount
 
-  useEffect(() => {
-    axios
-      .get("https://www.universal-tutorial.com/api/countries", config)
-      .then((response) => {
-        setCountries(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching countries", error);
-      });
-  }, []);
+
 
   // Function to handle country change
 
-  const handleCountryChange = (contrycode) => {
-    console.log("this is countrycode", contrycode);
-    if (contrycode) {
-      axios
-        .get(
-          `https://www.universal-tutorial.com/api/states/${contrycode}`,
-          config
-        )
-        .then((response) => {
-          setStates(response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching states", error);
-        });
-    } else {
-      setStates([]);
-    }
-  };
+
 
   // Define form validation schema using Yup
 
@@ -87,11 +60,10 @@ const UserAdd = ({ setAdd }) => {
       .email("Email is wrong formate")
       .required("Email Id is required"),
     address_1: Yup.string().required("Address is reqired"),
-    state: Yup.string().required("State is required"),
     zip_code: Yup.string()
       .matches(/^[0-9]+$/, "Zip code must contain only numbers")
       .required("Zip code is required"),
-    country: Yup.string().required("Country is required"),
+    
     mobile_no: Yup.string()
       .min(10)
       .matches(/^[0-9]+$/, "Mobile Number contain only numbers"),
@@ -274,7 +246,7 @@ const UserAdd = ({ setAdd }) => {
                   </span>
                 )}
               </div>
-              <div className="mb-8">
+              {/* <div className="mb-8">
                 <p className="form-label font-semibold text-dark text-[14px] lg:text-[16px]">
                   country <span className="text-red-500">*</span>
                 </p>
@@ -327,7 +299,7 @@ const UserAdd = ({ setAdd }) => {
                     {errors.state}
                   </span>
                 )}
-              </div>
+              </div> */}
               <div className="mb-8 flex flex-col ]">
                 <label className="form-label font-semibold text-dark text-[14px] lg:text-[16px]">
                   Zip Code <span className="text-red-500">*</span>
