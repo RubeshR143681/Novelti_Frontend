@@ -175,7 +175,7 @@ const UserListMainPage = () => {
     // JSX component rendering
 
   return (
-    <div className="bg-[#D1D5DB] h-[150vh]  lg:px-[40px] lg:py-[30px] py-[30px]  px-[15px] ">
+    <div className="bg-[#D1D5DB]  min-h-screen  lg:px-[40px] lg:py-[30px] py-[30px]  px-[15px] ">
       <div className="">
         <h1
           className="text-[20px]   lg:text-[25px]"
